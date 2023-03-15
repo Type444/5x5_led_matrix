@@ -57,6 +57,53 @@ void setupMPU();
 
 String inputMessage = "";
 
+
+
+void loadingAnimation(CHSV color, uint8_t repeatCount, uint16_t duration, uint8_t tailLength) {
+  const uint8_t positions[16][2] = {
+    {0, 0},
+    {1, 0},
+    {2, 0},
+    {3, 0},
+    {4, 0},
+    {4, 1},
+    {4, 2},
+    {4, 3},
+    {4, 4},
+    {3, 4},
+    {2, 4},
+    {1, 4},
+    {0, 4},
+    {0, 3},
+    {0, 2},
+    {0, 1}
+  };
+
+  uint8_t numPositions = 16;
+
+  for (uint8_t r = 0; r < repeatCount; r++) {
+    for (uint8_t i = 0; i < numPositions; i++) {
+      uint8_t x = positions[i][0];
+      uint8_t y = positions[i][1];
+      leds[XY(x, y)] = color;
+      
+      for (uint8_t t = 1; t <= tailLength; t++) {
+        uint8_t tailIndex = (i - t + numPositions) % numPositions;
+        uint8_t tailX = positions[tailIndex][0];
+        uint8_t tailY = positions[tailIndex][1];
+        uint8_t fadeAmount = 255 * t / (tailLength + 1);
+        leds[XY(tailX, tailY)].fadeToBlackBy(fadeAmount);
+      }
+
+      FastLED.show();
+      delay(duration);
+    }
+  }
+}
+
+
+
+
 void handleRoot() {
   String html = "<!DOCTYPE html>"
                 "<html>"
@@ -132,6 +179,8 @@ void setup() {
   // Start the server
   server.begin();
   Serial.println("HTTP server started");
+
+  loadingAnimation(CHSV(160, 255, 255), 10, 40, 12);
 }
 
 void loop()
