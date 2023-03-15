@@ -1,4 +1,5 @@
-void RunningString(String temp_str) {  // "ABCD"
+void RunningString(String temp_str, CHSV color) { 
+  Serial.println("DEBUG: RunningString: " + String(temp_str)); // DEBUG
   uint16_t symbol = 0;
   int str_length = temp_str.length();  // str_length = 6
   uint16_t symbol_arr[5] = { 0b0, 0b0, 0b0, 0b0, 0b0 };
@@ -70,7 +71,7 @@ void RunningString(String temp_str) {  // "ABCD"
       // 0b000 11111
       // 0b000 10001
       // 0b000 10001
-      draw(draw_arr);  //рисуем первые 5
+      draw(draw_arr, color);  //рисуем первые 5
       delay(70);
       for (int i = 0; i < 5; i++) {
         symbol_arr[i] <<= 1;  //сдвигаем каждый элемент на 1
