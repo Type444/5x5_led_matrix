@@ -8,16 +8,13 @@
 #include <ESP8266WebServer.h>
 #include <WiFiClient.h>
 #include "bitmap_characters.h"
-
-
+#include "config.h" // Include the configuration file
 
 Adafruit_MPU6050 mpu;
 
 #define LED_PIN  13
-
 #define COLOR_ORDER GRB
 #define CHIPSET     WS2812B
-
 #define BRIGHTNESS 64
 
 sensors_event_t a, g, temp;
@@ -32,30 +29,29 @@ const uint8_t kMatrixHeight = 5;
 const bool    kMatrixSerpentineLayout = true;
 const bool    kMatrixVertical = false;
 
-const char* ssid = "Type444";
-const char* password = "36aser762u";
 ESP8266WebServer server(80);  // Create a server instance on port 80
 
-
-
+String inputMessage = "";
 String inputColor = "#FF0000";
 
 #define NUM_LEDS (kMatrixWidth * kMatrixHeight)
-CRGB leds_plus_safety_pixel[ NUM_LEDS + 1];
-CRGB * const leds( leds_plus_safety_pixel + 1);
+CRGB leds_plus_safety_pixel[NUM_LEDS + 1];
+CRGB * const leds(leds_plus_safety_pixel + 1);
 
-
-
-void ChechkSide();
-void DrawOneFrame();
-void RunningString();
-void WriteByLetter();
-uint16_t XY();
-void draw();
-void printLetter();
+// Function prototypes
+void checkSide();
+void drawOneFrame();
+void runningString(const char* text, CHSV color);
+void writeByLetter();
+uint16_t XY(uint8_t x, uint8_t y);
+void draw(uint8_t x, uint8_t y, const uint8_t bitmap[][5]);
+void printLetter(char letter, uint8_t x, uint8_t y);
 void setupMPU();
-
-String inputMessage = "";
+void loadingAnimation(CHSV color, uint8_t repeatCount, uint16_t duration, uint8_t tailLength);
+void handleRoot();
+void handleSubmit();
+void setup();
+void loop();
 
 
 
