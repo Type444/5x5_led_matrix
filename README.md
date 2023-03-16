@@ -1,6 +1,6 @@
-┌────────────────────────────────────────────────────────────┐
+┌──────────────────────────────────────────────────┐
 │ LED Matrix Text Display with Orientation Sensing │
-└────────────────────────────────────────────────────────────┘
+└──────────────────────────────────────────────────┘
 
 This project is an LED matrix-based text display system that utilizes an MPU6050 sensor to determine the orientation of the text. Users can display text in different orientations based on the position of the LED matrix. The text can be scrolled, shown one character at a time, or displayed in various patterns.
 
